@@ -1,10 +1,21 @@
 'use client';
 
+
+import dynamic from 'next/dynamic';
+
 import { useState } from 'react';
-import { DepositForm } from '@/components/bridge/deposit-form';
-import { WithdrawForm } from '@/components/bridge/withdraw-form';
 import { cn } from '@/lib/utils';
 import { ArrowDownLeft, ArrowUpRight, Shield, Zap, Lock } from 'lucide-react';
+
+
+const DepositForm = dynamic(
+  () => import('@/components/bridge/deposit-form').then(m => ({ default: m.DepositForm })),
+  { ssr: false }
+);
+const WithdrawForm = dynamic(
+  () => import('@/components/bridge/withdraw-form').then(m => ({ default: m.WithdrawForm })),
+  { ssr: false }
+);
 
 const TABS = [
   { id: 'deposit', label: 'Deposit', icon: ArrowDownLeft, desc: 'BTC → sBTC' },

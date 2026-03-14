@@ -3,14 +3,14 @@
 import { useState, useEffect } from 'react';
 import { useWallet } from '@/lib/wallet-context';
 import { Button } from '@/components/ui/button';
-import { estimateFees, mockDeposit, type FeeEstimate } from '@/lib/mock-sdk';
+import { estimateFees, initiateDeposit, type FeeEstimate } from '@/lib/mock-sdk';
 import { formatBTC, formatSats, formatUSD, estimatedTime } from '@/lib/utils';
 import { ArrowDown, Info } from 'lucide-react';
 
 type Step = 'input' | 'confirm' | 'pending' | 'success';
 
 export function DepositForm() {
-  const { isConnected, network } = useWallet();
+  const { isConnected, network, stacksAddress } = useWallet();
   const [amount, setAmount] = useState('');
   const [step, setStep] = useState<Step>('input');
   const [fees, setFees] = useState<FeeEstimate | null>(null);
@@ -53,7 +53,13 @@ export function DepositForm() {
     setSubmitting(true);
     setError(null);
     try {
-      const result = await mockDeposit(amountNum);
+      const result = await initiateDeposit(
+      amountSats,
+      stacksAddress ?? '',
+      '',      
+      network
+    );
+      
       setTxId(result.btcTxId);
       setStep('pending');
     } catch (e) {

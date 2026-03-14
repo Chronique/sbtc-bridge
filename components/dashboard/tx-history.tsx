@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useWallet } from '@/lib/wallet-context';
-import { mockGetHistory, type TxHistory } from '@/lib/mock-sdk';
+import { getTxHistory, type TxHistory } from '@/lib/mock-sdk';
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { formatBTC, truncateAddress } from '@/lib/utils';
@@ -18,14 +18,14 @@ const STATUS_MAP: Record<TxHistory['status'], { variant: 'success' | 'warning' |
 };
 
 export function TxHistory() {
-  const { isConnected } = useWallet();
+  const { isConnected, stacksAddress, network } = useWallet();
   const [history, setHistory] = useState<TxHistory[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!isConnected) return;
     setLoading(true);
-    mockGetHistory().then(setHistory).finally(() => setLoading(false));
+    getTxHistory(stacksAddress ?? '', network).then(setHistory)
   }, [isConnected]);
 
   return (

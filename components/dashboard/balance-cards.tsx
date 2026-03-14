@@ -2,14 +2,14 @@
 
 import { useEffect, useState } from 'react';
 import { useWallet } from '@/lib/wallet-context';
-import { mockGetBalance, type BalanceResult } from '@/lib/mock-sdk';
+import { getSbtcBalance, type BalanceResult } from '@/lib/mock-sdk';
 import { Card } from '@/components/ui/card';
 import { TrendingUp, RefreshCw } from 'lucide-react';
 
 const BTC_PRICE_USD = 65000;
 
 export function BalanceCards() {
-  const { isConnected } = useWallet();
+  const { isConnected, stacksAddress, network } = useWallet();
   const [balance, setBalance] = useState<BalanceResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
@@ -18,7 +18,7 @@ export function BalanceCards() {
     if (!isConnected) return;
     setLoading(true);
     try {
-      const b = await mockGetBalance();
+      const b = await getSbtcBalance(stacksAddress!, network);
       setBalance(b);
       setLastUpdated(new Date());
     } finally {
