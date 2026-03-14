@@ -6,9 +6,19 @@ const nextConfig: NextConfig = {
     'bs58check',
     '@scure/base',
     'bitcoin-address-validation',
-    '@stacks/connect',
-    '@stacks/transactions',
   ],
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+        crypto: false,
+      };
+    }
+    return config;
+  },
 };
 
 export default nextConfig;
