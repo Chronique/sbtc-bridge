@@ -18,9 +18,13 @@ export function Navbar() {
   ];
 
   return (
-    <header className="sticky top-0 z-40 border-b border-white/8 backdrop-blur-xl"
-      style={{ backgroundColor: 'rgba(var(--bg-primary-rgb, 9,9,11), 0.85)' }}
-    >
+    <header
+  className="sticky top-0 z-40 backdrop-blur-xl"
+  style={{
+    backgroundColor: 'var(--bg-secondary)',
+    borderBottom: '1px solid var(--border)',
+  }}
+>
       <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between gap-4">
 
         {/* Left: logo + nav */}
