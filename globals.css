@@ -1,0 +1,104 @@
+@import "tailwindcss/preflight";
+@import "tailwindcss/utilities";
+
+/* ── Dark theme (default) ─────────────────────────────────────────────────── */
+:root,
+.dark {
+  --bg-primary:    #09090b;
+  --bg-secondary:  #18181b;
+  --bg-card:       #1c1c1f;
+  --bg-hover:      rgba(255,255,255,0.06);
+  --border:        rgba(255,255,255,0.08);
+  --border-strong: rgba(255,255,255,0.14);
+  --text-primary:  #fafafa;
+  --text-secondary:#a1a1aa;
+  --text-muted:    #52525b;
+  --glow-orange:   rgba(249,115,22,0.12);
+  --glow-purple:   rgba(168,85,247,0.07);
+}
+
+/* ── Light theme ──────────────────────────────────────────────────────────── */
+.light {
+  --bg-primary:    #f8f8f8;
+  --bg-secondary:  #ffffff;
+  --bg-card:       #ffffff;
+  --bg-hover:      rgba(0,0,0,0.04);
+  --border:        rgba(0,0,0,0.08);
+  --border-strong: rgba(0,0,0,0.14);
+  --text-primary:  #09090b;
+  --text-secondary:#52525b;
+  --text-muted:    #a1a1aa;
+  --glow-orange:   rgba(249,115,22,0.08);
+  --glow-purple:   rgba(168,85,247,0.05);
+}
+
+/* ── Base styles ──────────────────────────────────────────────────────────── */
+* { box-sizing: border-box; }
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* ── Theme-aware utility classes ──────────────────────────────────────────── */
+.bg-theme-primary   { background-color: var(--bg-primary); }
+.bg-theme-secondary { background-color: var(--bg-secondary); }
+.bg-theme-card      { background-color: var(--bg-card); }
+.bg-theme-hover     { background-color: var(--bg-hover); }
+.border-theme       { border-color: var(--border); }
+.border-theme-strong{ border-color: var(--border-strong); }
+.text-theme-primary { color: var(--text-primary); }
+.text-theme-secondary{ color: var(--text-secondary); }
+.text-theme-muted   { color: var(--text-muted); }
+
+/* ── Card component ───────────────────────────────────────────────────────── */
+.card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  transition: border-color 0.15s ease;
+}
+.card:hover { border-color: var(--border-strong); }
+
+/* ── Input fields ─────────────────────────────────────────────────────────── */
+.input-theme {
+  background-color: var(--bg-hover);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  transition: border-color 0.15s ease;
+}
+.input-theme::placeholder { color: var(--text-muted); }
+.input-theme:focus { border-color: rgba(249,115,22,0.5); outline: none; }
+
+/* Light mode specific overrides for Tailwind utility classes */
+.light .bg-zinc-950   { background-color: var(--bg-primary) !important; }
+.light .bg-zinc-900   { background-color: var(--bg-card) !important; }
+.light .bg-white\/5   { background-color: rgba(0,0,0,0.04) !important; }
+.light .bg-white\/8   { background-color: rgba(0,0,0,0.06) !important; }
+.light .bg-white\/10  { background-color: rgba(0,0,0,0.08) !important; }
+.light .bg-white\/4   { background-color: rgba(0,0,0,0.03) !important; }
+.light .bg-white\/3   { background-color: rgba(0,0,0,0.02) !important; }
+
+.light .border-white\/8  { border-color: rgba(0,0,0,0.08) !important; }
+.light .border-white\/10 { border-color: rgba(0,0,0,0.10) !important; }
+.light .border-white\/6  { border-color: rgba(0,0,0,0.06) !important; }
+
+.light .text-white   { color: #09090b !important; }
+.light .text-zinc-400{ color: #52525b !important; }
+.light .text-zinc-500{ color: #71717a !important; }
+.light .text-zinc-600{ color: #a1a1aa !important; }
+.light .text-zinc-700{ color: #d4d4d8 !important; }
+.light .text-zinc-300{ color: #3f3f46 !important; }
+
+.light .hover\:bg-white\/10:hover { background-color: rgba(0,0,0,0.07) !important; }
+.light .hover\:bg-white\/12:hover { background-color: rgba(0,0,0,0.09) !important; }
+.light .hover\:bg-white\/5:hover  { background-color: rgba(0,0,0,0.04) !important; }
+
+/* Smooth transition for theme switch */
+.light *,
+.dark * {
+  transition-property: background-color, border-color, color;
+  transition-duration: 0.15s;
+  transition-timing-function: ease;
+}
