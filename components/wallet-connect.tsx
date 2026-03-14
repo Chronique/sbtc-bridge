@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useWallet } from '@/lib/wallet-context';
 import { Button } from './ui/button';
 import { truncateAddress } from '@/lib/utils';
@@ -35,6 +36,7 @@ export function WalletConnect() {
     }
   };
 
+  // ── Connected state — show address button + dropdown ──────────────────────
   if (isConnected && stacksAddress) {
     return (
       <div className="relative">
@@ -72,7 +74,9 @@ export function WalletConnect() {
                   <button
                     onClick={toggleNetwork}
                     className={`text-xs font-medium px-2 py-1 rounded-lg transition-colors ${
-                      network === 'mainnet' ? 'bg-orange-500/20 text-orange-400' : 'bg-blue-500/20 text-blue-400'
+                      network === 'mainnet'
+                        ? 'bg-orange-500/20 text-orange-400'
+                        : 'bg-blue-500/20 text-blue-400'
                     }`}
                   >
                     {network}
@@ -93,6 +97,7 @@ export function WalletConnect() {
     );
   }
 
+  // ── Disconnected state — show connect button + modal ──────────────────────
   return (
     <>
       <Button onClick={() => setShowModal(true)} size="sm">
@@ -100,8 +105,21 @@ export function WalletConnect() {
         Connect Wallet
       </Button>
 
-      {showModal && (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      {showModal && createPortal(
+        <div
+          onClick={(e) => { if (e.target === e.currentTarget) setShowModal(false); }}
+          style={{
+            position: 'fixed',
+            top: 0, left: 0, right: 0, bottom: 0,
+            backgroundColor: 'rgba(0,0,0,0.85)',
+            backdropFilter: 'blur(8px)',
+            zIndex: 99999,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '1rem',
+          }}
+        >
           <div className="bg-zinc-900 border border-white/10 rounded-2xl w-full max-w-sm p-6">
             <h2 className="text-lg font-semibold text-white mb-1">Connect Wallet</h2>
             <p className="text-sm text-zinc-400 mb-6">Choose a wallet to connect to sBTC Bridge</p>
@@ -147,7 +165,8 @@ export function WalletConnect() {
               Cancel
             </button>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );
